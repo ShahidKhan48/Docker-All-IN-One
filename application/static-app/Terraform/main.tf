@@ -1,12 +1,7 @@
-# ec2 need to create
-
-resource "aws_instance" "zoya-vm" {
-  instance_type = "t3.micro"
-  ami           = "ami-0c02fb55956c7d316"
-  tags = {
-    name = "zoya-vm"
-  }
+provider "aws" {
+  region = "us-east-1" # Or your desired AWS region
 }
 
-
-#default(vpc,securitygroup,storage 8gb default)
+# Terraform will automatically look for AWS credentials in
+# environment variables (AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY)
+# or an IAM role if running on EC2.
