@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>React Docker App</title>
+    <style>
+        body { font-family: Arial; text-align: center; margin-top: 50px; }
+        .container { max-width: 600px; margin: 0 auto; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Hello from React/Node.js App!</h1>
+        <p>Running on port 3000</p>
+        <button onclick="checkHealth()">Check Health</button>
+        <div id="result"></div>
+    </div>
+    <script>
+        async function checkHealth() {
+            const response = await fetch('/api/health');
+            const data = await response.json();
+            document.getElementById('result').innerHTML = `<p>Status: ${data.status}</p>`;
+        }
+    </script>
+</body>
+</html>

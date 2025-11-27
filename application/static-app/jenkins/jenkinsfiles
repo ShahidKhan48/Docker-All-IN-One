@@ -1,0 +1,57 @@
+pipeline {
+    agent any 
+    stages {
+        stage('Code Pull & Build') {
+            steps {
+                sh './scripts/code_pull_build.sh'
+            }
+        }
+
+
+        stage('Run Tests') {
+            steps {
+                sh './scripts/run_tests.sh'
+            }
+        }
+
+        stage('Docker Build & Push') {
+            steps {
+                sh './scripts/docker_build_push.sh'
+            }
+        }
+
+        stage('Deploy to Server') {
+            steps {
+                sh './scripts/deploy_to_server.sh'
+            }
+        }
+
+        stage('Version Tagging') {
+            steps {
+                sh './scripts/version_tagging.sh'
+            }
+        }
+
+        stage('Artifact Upload') {
+            steps {
+                sh './scripts/artifact_upload.sh'
+            }
+        }
+
+        stage('Cleanup') {
+            steps {
+                sh './scripts/post_build_cleanup.sh'
+            }
+        }
+    }
+
+    post {
+        success {
+            sh './scripts/send_notification.sh SUCCESS "✅ Build & Deployment Successful"'
+        }
+        failure {
+            sh './scripts/send_notification.sh FAILURE "❌ Build Failed, check Jenkins logs"'
+            sh './scripts/rollback.sh'
+        }
+    }
+}
